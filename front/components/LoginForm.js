@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { Form, Input, Button } from 'antd';
 import styled from 'styled-components';
+import useCustomInput from '../hooks/useCustomInput';
 
 const ButtonWrapper = styled.div`
 	margin-top: 10px;
@@ -12,19 +14,11 @@ const FormWrapper = styled(Form)`
 `;
 
 const LoginForm = ({ setIsLoggedIn }) => {
-	const [id, setId] = useState('');
-	const [password, setPassword] = useState('');
-
-	const onChangeId = useCallback((e) => {
-		setId(e.target.value);
-	}, []);
-
-	const onChangePassword = useCallback((e) => {
-		setPassword(e.target.value);
-	}, []);
+	const [id, onChangeId] = useCustomInput('');
+	const [password, onChangePassword] = useCustomInput('');
 
 	const onSubmitForm = useCallback(() => {
-		console.log(id, password);
+		console.log('인풋값', id, password);
 		setIsLoggedIn(true);
 	}, [id, password]);
 
@@ -34,17 +28,18 @@ const LoginForm = ({ setIsLoggedIn }) => {
 				<div>
 					<label htmlFor='user-id'>아이디</label>
 					<br />
-					<Input name='user-id' value={id} onChange={onChangeId} requried />
+					<Input name='user-id' value={id} onChange={onChangeId} required />
 				</div>
 
 				<div>
-					<label htmlFor='user-password'>패스워드</label>
+					<label htmlFor='user-password'>비밀번호</label>
 					<br />
 					<Input
+						type='password'
 						name='user-password'
 						value={password}
 						onChange={onChangePassword}
-						requried
+						required
 					/>
 				</div>
 
@@ -61,6 +56,10 @@ const LoginForm = ({ setIsLoggedIn }) => {
 			</FormWrapper>
 		</>
 	);
+};
+
+LoginForm.propTypes = {
+	setIsLoggedIn: PropTypes.func.isRequired,
 };
 
 export default LoginForm;
