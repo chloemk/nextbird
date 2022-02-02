@@ -1,9 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { Form, Input, Button } from 'antd';
 import styled from 'styled-components';
 import useCustomInput from '../hooks/useCustomInput';
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../reducers/user';
 
 const ButtonWrapper = styled.div`
 	margin-top: 10px;
@@ -13,13 +15,15 @@ const FormWrapper = styled(Form)`
 	padding: 10px;
 `;
 
-const LoginForm = ({ setIsLoggedIn }) => {
+const LoginForm = () => {
+	const dispatch = useDispatch();
+
 	const [id, onChangeId] = useCustomInput('');
 	const [password, onChangePassword] = useCustomInput('');
 
 	const onSubmitForm = useCallback(() => {
 		console.log('인풋값', id, password);
-		setIsLoggedIn(true);
+		dispatch(loginAction({ id, password }));
 	}, [id, password]);
 
 	return (
