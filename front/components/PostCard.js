@@ -41,7 +41,7 @@ const PostCard = ({ post }) => {
 						// 내가 쓴 글이면 수정, 삭제 || 남이 쓴 글이면 신고
 						content={
 							<Button.Group>
-								{userId && post.User.id === userId ? (
+								{userId && post.User.id === Number(userId) ? (
 									<>
 										<Button>수정</Button>
 										<Button type='danger'>삭제</Button>
